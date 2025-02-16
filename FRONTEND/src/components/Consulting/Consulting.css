@@ -1,0 +1,82 @@
+/* ConsultingPage.css */
+.consulting-container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 30px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: 'Arial', sans-serif;
+    color: #333;
+}
+
+.consulting-container h1 {
+    text-align: center;
+    font-size: 2em;
+    margin-bottom: 20px;
+    color: #00970d;
+    line-height: 1em;
+}
+
+.consulting-container p {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 1.2em;
+    color: #666;
+}
+
+.consulting-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    font-size: 1em;
+    color: #00970d;
+}
+
+.form-group input,
+.form-group textarea {
+    width: calc(100%);
+    padding: 12px;
+    border: 1px solid #ccc;
+    font-size: 1em;
+    background-color: #f9f9f9;
+    transition: border-color 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: #00970d;
+    outline: none;
+}
+
+.form-group textarea {
+    resize: none;
+    height: 150px;
+}
+
+.submit-btn {
+    outline: 0;
+    border: 0;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 16px;
+    color: white;
+    background: #00970d;
+    border-bottom: 3px solid #006d09;
+    flex-grow: 1;
+}
+
+.submit-btn:hover {
+    background-color: #45a049;
+}

@@ -1,0 +1,16 @@
+.recentContainer {
+    margin-bottom: 30px;
+  }
+  
+  .recentPosts {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .post {
+    background-color: #f8f8f8;
+    padding: 10px;
+    border-radius: 4px;
+    width: 48%;
+  }
+  

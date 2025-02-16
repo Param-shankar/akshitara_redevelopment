@@ -1,0 +1,24 @@
+.container {
+  padding: 20px;
+}
+
+.blogs {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+/* Flexbox for each blog card */
+.blogs > div {
+  flex: 1 1 calc(50% - 20px); /* Take up 50% width minus gap on larger screens */
+  box-sizing: border-box;
+}
+
+/* Responsive adjustments for mobile screens */
+@media (max-width: 768px) {
+  .blogs > div {
+    flex: 1 1 100%; /* On mobile, each blog card takes up full width */
+    margin-bottom: 20px;
+  }
+}
