@@ -32,10 +32,7 @@ function AppContent() {
   const [isAuthenticated, setisAuthenticated] = useState(false);
   const userInfo = JSON.parse(localStorage.getItem("user-info"));
   const isAdmin = userInfo ? userInfo.isAdmin : false;
-  const GOOGLE_OAUTH = process.env.GOOGLE_OAUTH_ID;
-  console.log("the ouath key ",GOOGLE_OAUTH);
-
-  // console.log(isAdmin);
+  const GOOGLE_OAUTH = process.env.REACT_APP_GOOGLE_OAUTH_ID;
 
   const PrivateRoute = ({ element }) => {
     return isAuthenticated ? element : <Navigate to="/login" />;
@@ -48,8 +45,8 @@ function AppContent() {
 
   const GoogleAuthWrapper = () => (
     // <GoogleOAuthProvider clientId="227594739094-oftiap3v83ldvk2ffrcqq1bsbl29ct84.apps.googleusercontent.com">
-    // <GoogleOAuthProvider clientId="100003018279-e5vslmup7bma4qj9rc6ogj50g9amhg92.apps.googleusercontent.com">
-    <GoogleOAuthProvider clientId={GOOGLE_OAUTH}>
+    <GoogleOAuthProvider clientId="100003018279-e5vslmup7bma4qj9rc6ogj50g9amhg92.apps.googleusercontent.com">
+    {/* <GoogleOAuthProvider clientId={GOOGLE_OAUTH}> */}
       <Login />
     </GoogleOAuthProvider>
   );

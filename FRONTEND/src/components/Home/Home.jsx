@@ -27,7 +27,7 @@ const Home = () => {
 
   const getCategories = async () => {
     const res = await fetchDataFromApi("/api/category");
-    console.log("Categories fetched:", res);
+    // console.log("Categories fetched:", res);
     // alert(JSON.stringify(res));
     setCategories(res);
   };

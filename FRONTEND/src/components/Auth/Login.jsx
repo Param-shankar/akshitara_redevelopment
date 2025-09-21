@@ -15,9 +15,13 @@ const Login = () => {
         const result = await googleAuth(authResult["code"]);
         console.log("Backend Google auth response:", result);
         const { email, name, image, user_id } = result.data.user;
-        const isAdmin = user_id === process.env.REACT_APP_ADMIN_USER_ID;
+        // const isAdmin = user_id === process.env.REACT_APP_ADMIN_USER_ID || user_id === process.env.REACT_APP_ADMIN_USER_ID_2;
+        const isAdmin = [
+          process.env.REACT_APP_ADMIN_USER_ID,
+          process.env.REACT_APP_ADMIN_USER_ID_2,
+        ].includes(user_id);
         // console.log(image);
-
+        console.log("isAdmin:",user_id ,isAdmin);
         const token = result.data.token;
         const obj = { email, name, image, user_id, token, isAdmin };
 

@@ -3,17 +3,18 @@ import useFetch from "../../hooks/useFetch";
 import Products from "../Products/Products";
 import "./Category.scss";
 import { useState } from "react";
+import { useEffect } from "react";
 
 const Category = () => {
     const { cname } = useParams();
-    console.log("the cname is ", cname);
-
     const [cat, setcat] = useState("");
-    console.log("the cat is ",cat);
     const { data } = useFetch(
-      cname ? `/api/products/category/${cname}` : `api/products/`
+        `api/products/`
     );
-    console.log("the ", data);
+    // setcat(cname);
+    useEffect(() => {
+      setcat(cname);
+    }, [cname]);
     return (
         <div className="category-main-content">
             <div className="layout">

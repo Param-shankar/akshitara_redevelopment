@@ -20,7 +20,7 @@ const Orders = () => {
     const fetchOrders = async () => {
       try {
         const url = user
-          ? `http://localhost:4000/api/orders/user/${user.id}`
+          ? `${process.env.REACT_APP_STRIPE_APP_DEV_URL}api/orders/user/${user.id}`
           : null;
         if (url) {
           const response = await axios.get(url);

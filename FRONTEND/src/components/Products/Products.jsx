@@ -8,7 +8,7 @@ const Products = ({ products, innerPage, headingText, cat, setcat , releted}) =>
   const navigate = useNavigate();
   const { cname } = useParams();
 
-  console.log("the cname in products is ", cname);
+  // console.log("the cname in products is ", cname);
   // Intersection observer for skeleton reveal
   const [visibleProducts, setVisibleProducts] = useState({});
   const productRefs = useRef([]);
@@ -16,10 +16,9 @@ const Products = ({ products, innerPage, headingText, cat, setcat , releted}) =>
   // Sidebar filters and sorting
   const getCategories = async () => {
     const res = await fetchDataFromApi("/api/category");
-    console.log("Categories fetched:", res);
+    // console.log("Categories fetched:", res);
     // alert(JSON.stringify(res));
     const names = res.map((item) => item.title);
-  
     setCategories(names);
   };
   // const CATEGORY_OPTIONS = ["Drinks", "Sharbats", "Functional Foods"];
@@ -29,29 +28,18 @@ const Products = ({ products, innerPage, headingText, cat, setcat , releted}) =>
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   useEffect(() => {
     getCategories();
+    
   }, []);
+
+
   // Preselect category from route param if present 
   useEffect(() => {
-    if (cname) {
-      const normalized = cname.toLowerCase();
-      const match = CATEGORY_OPTIONS.find(
-        (c) => c.toLowerCase() === normalized
-      );
-      if (match) {
-        setSelectedCategories(new Set([match]));
-      }
+    if (cat && !selectedCategories.has(cat)) {
+      toggleCategory(cat);
     }
+  }, [cat]);
 
-    if (cat) {
-      const normalized = cat.toLowerCase();
-      const match = CATEGORY_OPTIONS.find(
-        (c) => c.toLowerCase() === normalized
-      );
-      if (match) {
-        setSelectedCategories(new Set([match]));
-      }
-    }
-  }, [cname, cat]);
+  
 
   useEffect(() => {
     const observerOptions = {
@@ -115,6 +103,19 @@ const Products = ({ products, innerPage, headingText, cat, setcat , releted}) =>
     return list;
   }, [products, selectedCategories, sortBy]);
 
+    useEffect(() => {
+      if (filteredSortedProducts.length > 0) {
+        const newVisible = {};
+        filteredSortedProducts.forEach((item, idx) => {
+          const key = item._id || idx;
+          newVisible[key] = true;
+        });
+        setVisibleProducts((prev) => ({ ...prev, ...newVisible }));
+      }
+    }, [filteredSortedProducts, selectedCategories, sortBy]);
+
+
+
   const toggleCategory = (label) => {
     setSelectedCategories((prev) => {
       const next = new Set(prev);
@@ -123,6 +124,8 @@ const Products = ({ products, innerPage, headingText, cat, setcat , releted}) =>
       return next;
     });
   };
+
+  
 
   useEffect(() => {
     if (selectedCategories.size === 0 && Array.isArray(products)) {
@@ -154,8 +157,9 @@ const Products = ({ products, innerPage, headingText, cat, setcat , releted}) =>
             {CATEGORY_OPTIONS.map((label) => (
               <label
                 key={label}
-                className={`checkbox ${selectedCategories.has(label) ? "active" : ""
-                  }`}>
+                className={`checkbox ${
+                  selectedCategories.has(label) ? "active" : ""
+                }`}>
                 <input
                   type="checkbox"
                   checked={selectedCategories.has(label)}
@@ -163,7 +167,7 @@ const Products = ({ products, innerPage, headingText, cat, setcat , releted}) =>
                     toggleCategory(label);
                     setcat(label);
                   }}
-                // onChange={() =>setcat(label)}
+                  // onChange={() =>setcat(label)}
                 />
                 <span>{label}</span>
               </label>
@@ -173,7 +177,7 @@ const Products = ({ products, innerPage, headingText, cat, setcat , releted}) =>
           <button className="quiz-btn" onClick={() => navigate("/test")}>
             Take Quiz
           </button>
-        </aside> 
+        </aside>
 
         {/* Content */}
         <div className="content">
