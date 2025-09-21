@@ -30,8 +30,8 @@ const bodyQuestions = [
   {
     question: "Which of these best describes your occupation?",
     options: [
-      "White-collar job like a government employee, teacher, or banker",
-      "High-stress job like student, doctor, corporate sector, IT, or driver",
+      "White collar job (govt. Employee, teacher, Banker etc.)",
+      "stressful job like (Student, Doctor, corporates, Call centres, It sector, Management, Driver etc.)",
       "Physically labor-intensive work",
     ],
   },
@@ -64,9 +64,9 @@ const bodyQuestions = [
     question:
       "Which of the following best describes your typical food preferences and types?",
     options: [
-      "Spicy, sour, salty, or bitter flavors, with hot and easily digestible foods, often fermented, boiled, or fully cooked",
-      "Mostly sweet, with some astringent or bitter flavors, typically cold, semi-cooked, and containing fats",
-      "Sweet, sour, and salty flavors, with hot, fat-containing foods, usually boiled or fully cooked",
+      "Spicy, Sour, Salty, Bitter Taste, hot and easily digestible food Fermented or boiled, cooked, 2-3 times a day",
+      "Mostly Sweet, somewhat Astringent, bitter, cold, semi cooked, fat contained food, 4-5 tines a day",
+      "Sweet, Sour, Salty, hot, fat containing food, boiled, cooked is preferred, number of meals vary",
     ],
   },
   {
@@ -344,7 +344,7 @@ const Quiz = () => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [chatHistory, setChatHistory] = useState([]);
   const [isQuizCompleted, setIsQuizCompleted] = useState(false);
-  const [selectedButton, setSelectedButton] = useState("Body Structure");
+  const [selectedTab, setSelectedTab] = useState("Internal Health");
   const [expandedOptions, setExpandedOptions] = useState({});
   const [selectedIssues, setSelectedIssues] = useState({});
   const [currentQuestions, setCurrentQuestions] = useState(bodyQuestions);
@@ -352,6 +352,7 @@ const Quiz = () => {
   const [quizResult, setQuizResult] = useState(null);
   const [isProductSuggestionReady, setIsProductSuggestionReady] =
     useState(false);
+  const [selectedAnswer, setSelectedAnswer] = useState(null);
   const chatEndRef = useRef(null);
   const navigate = useNavigate();
 
@@ -375,19 +376,20 @@ const Quiz = () => {
     setSelectedIssues({});
     setIsQuizCompleted(false);
     setIsProductSuggestionReady(false);
+    setSelectedAnswer(null);
 
-    if (mode === "Product Suggestion") {
+    if (mode === "Product suggestion") {
       setCurrentQuestions(productQuestions);
       setOptionsList(productQuestions[0]?.options || []);
     } else {
       setCurrentQuestions(bodyQuestions);
-      setOptionsList([]); // Clear optionsList for Body Structure mode
+      setOptionsList([]); // Clear optionsList for Internal Health mode
     }
   };
 
   useEffect(() => {
-    initializeState(selectedButton);
-  }, [selectedButton]);
+    initializeState(selectedTab);
+  }, [selectedTab]);
 
   const handleOptionClick = (option) => {
     const optionText = option.text;
@@ -441,13 +443,51 @@ const Quiz = () => {
         [optionText]: false,
       }));
 
-      if (selectedButton === "Product Suggestion") {
+      if (selectedTab === "Product suggestion") {
         setIsProductSuggestionReady(true);
       }
     }
   };
 
+  const handleRemoveSelection = (answerIndex) => {
+    // Remove paired question/answer from chat history
+    setChatHistory((prevChat) => {
+      const updated = [];
+      for (let i = 0; i < prevChat.length; i++) {
+        const q = prevChat[i];
+        const a = prevChat[i + 1];
+        if (
+          q?.type === "question" &&
+          a?.type === "answer" &&
+          a?.index === answerIndex
+        ) {
+          i++; // skip this pair
+          continue;
+        }
+        updated.push(q);
+      }
+      const anyAnswersLeft = updated.some((item) => item?.type === "answer");
+      setIsProductSuggestionReady(anyAnswersLeft);
+      return updated;
+    });
+
+    // Restore option back into the list (if missing) and keep sorted by index
+    const originalOption = productQuestions[0]?.options?.find(
+      (opt) => opt.index === answerIndex
+    );
+    if (originalOption) {
+      setOptionsList((prev) => {
+        const exists = prev.some((opt) => opt.index === answerIndex);
+        if (exists) return prev;
+        const merged = [...prev, originalOption];
+        merged.sort((a, b) => (a.index || 0) - (b.index || 0));
+        return merged;
+      });
+    }
+  };
+
   const handleBodyOptionClick = (option, index) => {
+    setSelectedAnswer(option);
     setChatHistory((prevChat) => [
       ...prevChat,
       {
@@ -460,15 +500,30 @@ const Quiz = () => {
     const nextQuestionIndex = currentQuestionIndex + 1;
     if (nextQuestionIndex < currentQuestions.length) {
       setCurrentQuestionIndex(nextQuestionIndex);
+      setSelectedAnswer(null);
     } else {
       setIsQuizCompleted(true);
     }
   };
 
   const handleReset = () => {
-    initializeState(selectedButton);
-    // document.querySelector(".quiz-class").classList.remove("show-result");
+    initializeState(selectedTab);
     setQuizResult(null);
+  };
+
+  const handlePrevious = () => {
+    if (currentQuestionIndex > 0) {
+      setCurrentQuestionIndex(currentQuestionIndex - 1);
+      setSelectedAnswer(null);
+    }
+  };
+
+  const handleNext = () => {
+    if (selectedAnswer && currentQuestionIndex < currentQuestions.length - 1) {
+      const nextQuestionIndex = currentQuestionIndex + 1;
+      setCurrentQuestionIndex(nextQuestionIndex);
+      setSelectedAnswer(null);
+    }
   };
 
   const handleBodyStructure = () => {
@@ -495,19 +550,32 @@ const Quiz = () => {
     let result = "";
     const [first, second, third] = countsArray.map((item) => item.count);
 
-    // Define logic based on sorted counts
-    if (first >= 7 && first >= second + 3 && first >= third + 3) {
-      // Single dosha dominance
-      result = countsArray[0].type;
-    } else if (first >= 5 && second >= 5 && Math.abs(first - second) <= 1) {
-      // Dual dosha dominance
-      result = `${countsArray[0].type}-${countsArray[1].type}`;
-    } else if (Math.abs(first - second) <= 1 && Math.abs(second - third) <= 1) {
-      // Tri-Dosha (all counts are close in value)
-      result = "Tri-Dosha";
+    // Option 1 logic: >50% single; else any two >30% → those two; else top two
+    const totalResponses = counts.a + counts.b + counts.c;
+    const doshas = [
+      { key: "a", type: "Kapha", count: counts.a },
+      { key: "b", type: "Pitta", count: counts.b },
+      { key: "c", type: "Vata", count: counts.c },
+    ];
+
+    // Avoid divide-by-zero; if no responses, default to top two by count (will be zeros)
+    const safeTotal = totalResponses === 0 ? 1 : totalResponses;
+    const doshasWithPct = doshas.map((d) => ({
+      ...d,
+      percentage: (d.count / safeTotal) * 100,
+    }));
+
+    doshasWithPct.sort((x, y) => y.percentage - x.percentage);
+
+    if (doshasWithPct[0].percentage > 50) {
+      result = doshasWithPct[0].type;
     } else {
-      // General case for two close doshas with one lower dosha
-      result = `${countsArray[0].type}-${countsArray[1].type}`;
+      const aboveThirty = doshasWithPct.filter((d) => d.percentage > 30);
+      if (aboveThirty.length >= 2) {
+        result = `${doshasWithPct[0].type}-${doshasWithPct[1].type}`;
+      } else {
+        result = `${doshasWithPct[0].type}-${doshasWithPct[1].type}`;
+      }
     }
 
     // Advice based on the result
@@ -544,15 +612,12 @@ const Quiz = () => {
   };
 
   const renderCurrentView = () => {
-    if (selectedButton === "Body Structure") {
+    if (selectedTab === "Internal Health") {
       if (isQuizCompleted) {
         return (
-          <div className="question-card">
-            <button
-              className="suggest-products-btn"
-              onClick={handleBodyStructure}
-            >
-              Submit
+          <div className="question-section">
+            <button className="submit-btn" onClick={handleBodyStructure}>
+              Submit Assessment
             </button>
           </div>
         );
@@ -560,45 +625,92 @@ const Quiz = () => {
 
       const currentQuestion = currentQuestions[currentQuestionIndex];
       return (
-        <div className="question-card">
-          <div className="chat-message doctor">{currentQuestion?.question}</div>
-          <div className="options">
+        <div className="question-section">
+          <h3 className="question-text">{currentQuestion?.question}</h3>
+          <div className="options-container">
             {currentQuestion?.options?.map((option, index) => (
-              <div
+              <button
                 key={index}
-                className="chat-message option"
-                onClick={() => handleBodyOptionClick(option, index)}
-              >
+                className={`option-btn ${
+                  selectedAnswer === option ? "selected" : ""
+                }`}
+                onClick={() => handleBodyOptionClick(option, index)}>
                 {option}
-              </div>
+              </button>
             ))}
+          </div>
+          <div className="navigation">
+            <button
+              className="nav-btn prev-btn"
+              onClick={handlePrevious}
+              disabled={currentQuestionIndex === 0}>
+              ← Previous
+            </button>
+            {/* <button
+              className="nav-btn next-btn"
+              onClick={handleNext}
+              disabled={
+                !selectedAnswer ||
+                currentQuestionIndex === currentQuestions.length - 1
+              }>
+              Next →
+            </button> */}
           </div>
         </div>
       );
     }
 
+    // Build submitted selections from chat-style history (question followed by answer)
+    const submittedSelections = [];
+    for (let i = 0; i < chatHistory.length - 1; i++) {
+      const q = chatHistory[i];
+      const a = chatHistory[i + 1];
+      if (q?.type === "question" && a?.type === "answer") {
+        submittedSelections.push({
+          question: q.text,
+          answer: a.text,
+          index: a.index,
+        });
+        i++; // skip the paired answer on next loop iteration
+      }
+    }
+
     return (
-      <div className="question-card">
+      <div className="question-section">
         {isProductSuggestionReady && (
-          <button
-            className="suggest-products-btn"
-            onClick={handleProductSuggestion}
-          >
+          <button className="submit-btn" onClick={handleProductSuggestion}>
             Suggest Products
           </button>
         )}
-        <div className="chat-message doctor">
-          {productQuestions[0]?.question}
-        </div>
-        <div className="options">
+        <h3 className="question-text">{productQuestions[0]?.question}</h3>
+        {submittedSelections.length > 0 && (
+          <div className="selected-summary">
+            <h4>Your selections</h4>
+            <div className="chips">
+              {submittedSelections.map((sel, idx) => (
+                <div key={idx} className="chip">
+                  <span className="chip-label">{sel.question}:</span>{" "}
+                  {sel.answer}
+                  <button
+                    type="button"
+                    className="chip-remove"
+                    aria-label="Remove selection"
+                    onClick={() => handleRemoveSelection(sel.index)}>
+                    ×
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+        <div className="options-container">
           {optionsList.map((option, index) => (
             <div key={index}>
-              <div
-                className="chat-message option"
-                onClick={() => handleOptionClick(option)}
-              >
+              <button
+                className="option-btn"
+                onClick={() => handleOptionClick(option)}>
                 {option.text}
-              </div>
+              </button>
               {expandedOptions[option.text] && (
                 <div className="expanded-options">
                   {option.issues.map((issue, issueIndex) => (
@@ -613,8 +725,7 @@ const Quiz = () => {
                   ))}
                   <button
                     className="submit-issues-btn"
-                    onClick={() => handleSubmitIssues(option)}
-                  >
+                    onClick={() => handleSubmitIssues(option)}>
                     Submit
                   </button>
                 </div>
@@ -626,108 +737,100 @@ const Quiz = () => {
     );
   };
 
+  const progressPercentage =
+    ((currentQuestionIndex + 1) / currentQuestions.length) * 100;
+
   return (
-    <div className="quiz-class">
-      <div className={`chat-container ${quizResult ? "show-result" : ""}`}>
-        <div className="chat-content">
-          <div className="top-buttons">
-            <button
-              className={`top-button ${
-                selectedButton === "Body Structure" ? "selected" : ""
-              }`}
-              onClick={() => {
-                setSelectedButton("Body Structure");
-                setCurrentQuestions(bodyQuestions);
-                setQuizResult(null);
-              }}
-            >
-              Body Structure
-            </button>
-            <button
-              className={`top-button ${
-                selectedButton === "Product Suggestion" ? "selected" : ""
-              }`}
-              onClick={() => {
-                setSelectedButton("Product Suggestion");
-                setCurrentQuestions(productQuestions);
-                setQuizResult(null);
-              }}
-            >
-              Product Suggestion
-            </button>
-          </div>
-          <div className="chat-header">
-            Self Assessment
-            <span onClick={handleReset}>
-              <MdOutlineRestartAlt />
-            </span>
-          </div>
-          <div
-            className={`chat-history ${
-              isQuizCompleted ? "increase-height" : ""
-            }`}
-          >
-            {chatHistory.map((item, index) => (
-              <div
-                key={index}
-                className={`chat-message ${
-                  item.type === "question" ? "doctor" : "user"
-                }`}
-              >
-                {item.text}
-              </div>
-            ))}
-            {isQuizCompleted && selectedButton === "Body Structure" && (
-              <div className="chat-message doctor">
-                Thank you for completing the Assessment!
-              </div>
-            )}
-            <div ref={chatEndRef} />
-          </div>
-          {renderCurrentView()}
+    <div className="quiz-container">
+      <div className="quiz-card">
+        <div className="quiz-header">
+          <h1>Self Assessment</h1>
+          <button className="reset-btn" onClick={handleReset}>
+            <MdOutlineRestartAlt />
+          </button>
         </div>
-        <div className="result-container">
-          <p>Here's the analysis based on your answers.</p>
-          {quizResult && (
-            <Pie
-              data={{
-                labels: ["Kapha", "Pitta", "Vata"],
-                datasets: [
-                  {
-                    data: [
-                      (quizResult.counts.a / 13) * 100,
-                      (quizResult.counts.b / 13) * 100,
-                      (quizResult.counts.c / 13) * 100,
-                    ],
-                    backgroundColor: ["#355935", "#5d8c55", "#93be89"],
-                    hoverBackgroundColor: ["#355935", "#5d8c55", "#93be89"],
-                  },
-                ],
-              }}
-              options={{
-                responsive: true,
-                plugins: {
-                  legend: {
-                    position: "bottom",
-                    onClick: () => {},
-                  },
-                  tooltip: {
-                    callbacks: {
-                      label: function (tooltipItem) {
-                        return `${tooltipItem.label}: ${tooltipItem.raw.toFixed(
-                          1
-                        )}%`;
+
+        <div className="tab-navigation">
+          <button
+            className={`tab-btn ${
+              selectedTab === "Internal Health" ? "active" : ""
+            }`}
+            onClick={() => {
+              setSelectedTab("Internal Health");
+              setCurrentQuestions(bodyQuestions);
+              setQuizResult(null);
+            }}>
+            Internal Health
+          </button>
+          <button
+            className={`tab-btn ${
+              selectedTab === "Product suggestion" ? "active" : ""
+            }`}
+            onClick={() => {
+              setSelectedTab("Product suggestion");
+              setCurrentQuestions(productQuestions);
+              setQuizResult(null);
+            }}>
+            Product suggestion
+          </button>
+        </div>
+
+        {selectedTab === "Internal Health" && (
+          <div className="progress-container">
+            <div className="progress-bar">
+              <div
+                className="progress-fill"
+                style={{ width: `${progressPercentage}%` }}></div>
+            </div>
+          </div>
+        )}
+
+        {renderCurrentView()}
+
+        {quizResult && (
+          <div className="result-section">
+            <h2>Assessment Complete!</h2>
+            <p>Here's the analysis based on your answers.</p>
+            <div className="chart-container">
+              <Pie
+                data={{
+                  labels: ["Kapha", "Pitta", "Vata"],
+                  datasets: [
+                    {
+                      data: [
+                        (quizResult.counts.a / 13) * 100,
+                        (quizResult.counts.b / 13) * 100,
+                        (quizResult.counts.c / 13) * 100,
+                      ],
+                      backgroundColor: ["#355935", "#5d8c55", "#93be89"],
+                      hoverBackgroundColor: ["#355935", "#5d8c55", "#93be89"],
+                    },
+                  ],
+                }}
+                options={{
+                  responsive: true,
+                  plugins: {
+                    legend: {
+                      position: "bottom",
+                      onClick: () => {},
+                    },
+                    tooltip: {
+                      callbacks: {
+                        label: function (tooltipItem) {
+                          return `${
+                            tooltipItem.label
+                          }: ${tooltipItem.raw.toFixed(1)}%`;
+                        },
                       },
                     },
                   },
-                },
-              }}
-            />
-          )}
-
-          <h2>Your body structure is: {quizResult ? quizResult.type : ""}</h2>
-          <h5>{quizResult ? quizResult.advice : ""}</h5>
-        </div>
+                }}
+              />
+            </div>
+            <h3>Your body structure is: {quizResult.type}</h3>
+            <p className="advice-text">{quizResult.advice}</p>
+          </div>
+        )}
       </div>
     </div>
   );

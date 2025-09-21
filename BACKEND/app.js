@@ -19,8 +19,17 @@ const PORT = 4000 || process.env.PORT;
 
 require("dotenv").config();
 require("./utils/dbconnection");
+
 /*MIDDLEWARE*/
-app.use(cors());
+app.use(
+  cors({
+    origin: ["http://localhost:3000"], // allowed origins
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"], // allowed methods
+    allowedHeaders: ["Content-Type", "Authorization"], // allowed headers
+    credentials: true, // if you want to allow cookies/auth headers
+  })
+);
+
 app.use(express.json());
 // app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: false }));

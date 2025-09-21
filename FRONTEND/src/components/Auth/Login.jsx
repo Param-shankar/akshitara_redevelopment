@@ -8,11 +8,12 @@ import { RiArrowGoBackLine } from "react-icons/ri";
 
 const Login = () => {
   const navigate = useNavigate();
-
   const responseGoogle = async (authResult) => {
+    console.log("Google auth result:", authResult);
     try {
       if (authResult["code"]) {
         const result = await googleAuth(authResult["code"]);
+        console.log("Backend Google auth response:", result);
         const { email, name, image, user_id } = result.data.user;
         const isAdmin = user_id === process.env.REACT_APP_ADMIN_USER_ID;
         // console.log(image);
@@ -28,6 +29,17 @@ const Login = () => {
     }
   };
 
+  // const googleLogin = useGoogleLogin({
+  //   onSuccess: () => {
+  //     console.log("ther is no error here");
+  //     responseGoogle();
+  //   },
+  //   onError: (error) => {
+  //     console.log("ther is error here");
+  //     console.error("Google login error:", error);
+  //   },
+  //   flow: "auth-code",
+  // });
   const googleLogin = useGoogleLogin({
     onSuccess: responseGoogle,
     onError: (error) => {

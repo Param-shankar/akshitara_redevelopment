@@ -1,24 +1,98 @@
 .container {
-  padding: 20px;
+  display: flex;
+  min-height: 100vh;
+  background-color: #f8f9fa;
+  padding-top: 10vh;
+  position: relative;
+}
+
+.sidebar {
+  width: 280px;
+  /* background-color: rgb(255, 255, 255); */
+  padding: 24px;
+  box-shadow: 2px 0 4px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 12vh;
+  margin-top: 3vh;
+  background: #ffffff;
+  border: 0.5px solid #a9a9a9;
+  box-shadow: 3px 3px 38.2px rgba(0, 0, 0, 0.25);
+  border-radius: 20px;
+  max-width: 95%;
+  margin-left: 1vw;
+  height: 100%;
+  border-radius: 5%;
+  overflow-y: auto;
+  @media (max-width: 768px) and (max-width: 1024px) {
+    margin-top: 0vh;
+    margin-left: 2.2vw;
+  }
+}
+
+.mainContent {
+  flex: 1;
+  padding: 24px;
+  background-color: #f8f9fa;
+}
+
+.searchContainer {
+  margin-bottom: 24px;
+}
+
+.searchBar {
+  position: relative;
+  max-width: 1200px;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 16px;
+  color: #666;
+}
+
+.searchInput {
+  width: 100%;
+  padding: 12px 12px 12px 40px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 16px;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.searchInput:focus {
+  border-color: #00970d;
+  box-shadow: 0 0 0 2px rgba(0, 151, 13, 0.1);
 }
 
 .blogs {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 20px;
-}
-
-/* Flexbox for each blog card */
-.blogs > div {
-  flex: 1 1 calc(50% - 20px); /* Take up 50% width minus gap on larger screens */
-  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 24px;
 }
 
 /* Responsive adjustments for mobile screens */
 @media (max-width: 768px) {
-  .blogs > div {
-    flex: 1 1 100%; /* On mobile, each blog card takes up full width */
-    margin-bottom: 20px;
+  .container {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: static;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .mainContent {
+    padding: 16px;
+  }
+
+  .blogs {
+    grid-template-columns: 1fr;
+    gap: 16px;
   }
 }

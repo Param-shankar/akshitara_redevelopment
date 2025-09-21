@@ -12,6 +12,7 @@ import "./Header.scss";
 import Search from "./Search/Search";
 import { Context } from "../../utils/context";
 import Cart from "../Cart/Cart";
+import { FiShoppingCart } from "react-icons/fi";
 
 const Header = ({ setIsAuthenticated }) => {
   const [scrolled, setScrolled] = useState(false);
@@ -82,19 +83,38 @@ const Header = ({ setIsAuthenticated }) => {
     };
   }, [userDropdownOpen]);
 
+  // Helper to check if route is active
+  const isActive = (path) => window.location.pathname === path;
+
   return (
     <>
       <header className={`main-header ${scrolled ? "sticky-header" : ""}`}>
         <div className="header-content">
-          <ul className="left">
-            <li onClick={() => navigate("/")}>Home</li>
-            <li onClick={() => navigate("/about")}>About</li>
-            <li onClick={() => navigate("/consulting")}>Consulting</li>
-            <li onClick={() => navigate("/blogs")}>Blogs</li>
-          </ul>
-          <div className="center" onClick={() => navigate("/")}>
-            AKSHITARA.
+          <div className="center" onClick={() => navigate("/")} style={{}}>
+            AKSHITARA
           </div>
+          <ul className="left">
+            <li
+              className={isActive("/") ? "active" : ""}
+              onClick={() => navigate("/")}>
+              Home
+            </li>
+            <li
+              className={isActive("/about") ? "active" : ""}
+              onClick={() => navigate("/about")}>
+              About
+            </li>
+            <li
+              className={isActive("/consulting") ? "active" : ""}
+              onClick={() => navigate("/consulting")}>
+              Consulting
+            </li>
+            <li
+              className={isActive("/blogs") ? "active" : ""}
+              onClick={() => navigate("/blogs")}>
+              Blogs
+            </li>
+          </ul>
           <div className="right">
             <TbSearch onClick={() => setSearchModal(true)} />
             <div className="user-icon-wrapper">
@@ -104,8 +124,7 @@ const Header = ({ setIsAuthenticated }) => {
                   className={`user-dropdown ${
                     userDropdownOpen ? "active" : ""
                   }`}
-                  ref={dropdownRef}
-                >
+                  ref={dropdownRef}>
                   {userInfo ? (
                     <>
                       <img
@@ -135,8 +154,7 @@ const Header = ({ setIsAuthenticated }) => {
                         onClick={() => {
                           navigate("/login");
                           setUserDropdownOpen(false);
-                        }}
-                      >
+                        }}>
                         Login
                       </button>
                     </>
@@ -145,53 +163,53 @@ const Header = ({ setIsAuthenticated }) => {
               )}
             </div>
             <span className="cart-icon" onClick={() => setShowCart(true)}>
-              <IoBagOutline />
+              {/* <IoBagOutline /> */}
+              <FiShoppingCart />
               {!!cartCount && <span>{cartCount}</span>}
             </span>
             <TbMenu2 className="menu-icon" onClick={handleMenuClick} />
           </div>
         </div>
+        <div className={`dropdown-menu ${menuOpen ? "open" : ""}`}>
+          <ul>
+            <li
+              className={isActive("/") ? "active" : ""}
+              onClick={() => {
+                navigate("/");
+                setMenuOpen(false);
+              }}>
+              Home
+            </li>
+            <li
+              className={isActive("/about") ? "active" : ""}
+              onClick={() => {
+                navigate("/about");
+                setMenuOpen(false);
+              }}>
+              About
+            </li>
+            <li
+              className={isActive("/consulting") ? "active" : ""}
+              onClick={() => {
+                navigate("/consulting");
+                setMenuOpen(false);
+              }}>
+              Consulting
+            </li>
+            <li
+              className={isActive("/blogs") ? "active" : ""}
+              onClick={() => {
+                navigate("/blogs");
+                setMenuOpen(false);
+              }}>
+              Blogs
+            </li>
+          </ul>
+        </div>
       </header>
 
       {searchModal && <Search setSearchModal={setSearchModal} />}
       {showCart && <Cart />}
-
-      <div className={`dropdown-menu ${menuOpen ? "open" : ""}`}>
-        <ul>
-          <li
-            onClick={() => {
-              navigate("/");
-              setMenuOpen(false);
-            }}
-          >
-            Home
-          </li>
-          <li
-            onClick={() => {
-              navigate("/about");
-              setMenuOpen(false);
-            }}
-          >
-            About
-          </li>
-          <li
-            onClick={() => {
-              navigate("/consulting");
-              setMenuOpen(false);
-            }}
-          >
-            Consulting
-          </li>
-          <li
-            onClick={() => {
-              navigate("/blogs");
-              setMenuOpen(false);
-            }}
-          >
-            Blogs
-          </li>
-        </ul>
-      </div>
     </>
   );
 };

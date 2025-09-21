@@ -10,13 +10,33 @@ const paymentSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  // address: {
+  //   type: String,
+  //   required: true, // Ensure it's required, or make it optional based on your need
+  // },
+  // phone_number: {
+  //   type: String,
+  //   required: true, // Ensure it's required, or make it optional
+  // },
   address: {
     type: String,
-    required: true, // Ensure it's required, or make it optional based on your need
+    required: true,
+  },
+  city: {
+    type: String,
+    required: true,
+  },
+  pincode: {
+    type: String,
+    required: true,
+  },
+  state: {
+    type: String,
+    required: true,
   },
   phone_number: {
     type: String,
-    required: true, // Ensure it's required, or make it optional
+    required: true,
   },
   products: [
     {
@@ -39,17 +59,41 @@ const paymentSchema = new mongoose.Schema({
       },
     },
   ],
+  payment_method: {
+    type: String,
+    enum: ["Razorpay", "COD"],
+    required: true,
+  },
+  order_id: {
+    type: Number,
+    // required: function () {
+    //   return this.payment_method === "COD";
+    // },
+    required: true,
+  },
+  channel_order_id: {
+    type: String,
+    required: function () {
+      return this.payment_method === "COD";
+    },
+  },
   razorpay_order_id: {
     type: String,
-    required: true,
+    required: function () {
+      return this.payment_method === "Razorpay";
+    },
   },
   razorpay_payment_id: {
     type: String,
-    required: true,
+    required: function () {
+      return this.payment_method === "Razorpay";
+    },
   },
   razorpay_signature: {
     type: String,
-    required: true,
+    required: function () {
+      return this.payment_method === "Razorpay";
+    },
   },
   amount: {
     type: Number,

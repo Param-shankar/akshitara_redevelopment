@@ -56,7 +56,21 @@ const searchProduct = async (req, res) => {
 
 const addProduct = async (req, res) => {
   try {
-    const createdProduct = await Product.create(req.body);
+    const body = { ...req.body };
+    console.log(body);
+    // Normalize multiple images: allow clients to send `images: string[]`.
+    // If `image_urls` is missing but `images` is provided and valid, map it.
+    if (!body.image_urls && Array.isArray(body.images)) {
+      const areAllStrings = body.images.every((u) => typeof u === "string");
+      if (!areAllStrings) {
+        return res
+          .status(400)
+          .json({ message: "images must be an array of strings" });
+      }
+      body.image_urls = body.images;
+    }
+
+    const createdProduct = await Product.create(body);
     res.status(201).json(createdProduct);
   } catch (err) {
     res.status(500).json({ message: err.message });

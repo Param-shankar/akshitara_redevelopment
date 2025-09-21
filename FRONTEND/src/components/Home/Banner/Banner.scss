@@ -1,106 +1,198 @@
 @import "../../../css-config/mixins.scss";
+
 .hero-banner {
-    padding: 40px 0;
-    position: relative;
-    // background-image: linear-gradient(to right, #8e2de2, #4a00e0);
-    background-image: linear-gradient(to right, #00970d, #17dc1a);
+  padding: 0;
+  padding-top: 14vh;
+  position: relative;
+  background: linear-gradient(to top, #cdf4cb 20%, #ffffff 105.4%);
+  background-size: 100% 70%;
+  background-repeat: no-repeat;
+  overflow: hidden;
+
+  .banner-wave-svg {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    bottom: 0;
+    top: 35%;
+    z-index: -1;
+    pointer-events: none;
+    line-height: 0;
+    svg {
+      width: 100%;
+      height: 100%;
+      min-height: 100px;
+      max-height: 400px;
+      display: block;
+    }
     @include md {
-        height: calc(100vh - 80px);
+      top: 55vh;
+      svg {
+        height: 180px;
+      }
     }
-    .content {
-        height: 100%;
-        display: flex;
-        justify-content: flex-end;
-        align-items: center;
-        flex-direction: column-reverse;
-        max-width: calc(100% - 20px);
-        margin: 0 auto;
-        position: relative;
-        overflow: hidden;
+  }
+
+  @include md {
+    height: calc(100vh - 80px);
+    min-height: 600px;
+  }
+  .content {
+    height: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: wrap-reverse;
+
+    flex-direction: row;
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+
+    .text-content {
+      flex: 1;
+      color: #222;
+      text-align: left;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+      z-index: 4;
+        // padding-left: 40px;
+        // padding-top: 40px;
+      padding-left: 2rem;
+      //   padding-top: 20px;
+      @include md {
+        padding-left: 60px;
+        padding-top: 0;
+      }
+
+      h1 {
+        @include lg {
+          font-size: 2.5rem;
+        }
+        font-size: 1.25rem;
+        font-weight: 700;
+        line-height: 1.1;
+        margin-bottom: 18px;
+        color: #222;
+        font-family: "Montserrat", sans-serif;
+
+        .green {
+          color: #00970d;
+          font-size: 1.5rem;
+          font-weight: 800;
+          font-family: "Montserrat", sans-serif;
+          @include lg {
+            font-size: 2.5rem;
+          }
+        }
+
         @include md {
-            flex-direction: row;
-            max-width: 1200px;
+          font-size: 3.2rem;
+          .green {
+            font-size: 3.2rem;
+          }
         }
-        .banner-img {
-            position: relative;
-            z-index:3;
-            width: 200px;
-            margin-bottom: 20px;
-            scale: 130%;
-            filter: drop-shadow(5px 10px 5px black);
-            @include md {
-                width: 500px;
-                margin-right: 60px;
-                margin-top: 50px;
-                margin-bottom: 0;
-            }
-            @include xxl {
-                width: 600px;
-                margin-right: 0;
-                margin-top: 0;
-            }
+      }
+      p {
+        color: #5e5e5f;
+        max-width: 400px;
+        font-size: 0.75rem;
+        line-height: 1.5;
+        margin-bottom: 32px;
+        font-family: "Montserrat", sans-serif;
+        @include md {
+          font-size: 1.25rem;
+          max-width: 500px;
         }
-        .text-content {
-            color: white;
-            text-align: center;
-            display: flex;
-            z-index: 4;
-            flex-direction: column;
-            align-items: center;
-            @include md {
-                position: absolute;
-                left: 50px;
-                top: 50%;
-                transform: translateY(-50%);
-            }
-            @include xxl {
-                left: 0;
-            }
-            h1 {
-                font-size: 70px;
-                font-weight: 700;
-                line-height: 1;
-                color: white;
-                margin-bottom: 20px;
-                @include md {
-                    font-size: 130px;
-                }
-            }
-            p {
-                color: white;
-                max-width: 300px;
-                font-size: 14px;
-                line-height: 20px;
-                margin-bottom: 20px;
-                @include md {
-                    max-width: 500px;
-                    font-size: 18px;
-                    line-height: 24px;
-                    margin-bottom: 40px;
-                }
-            }
-            .ctas {
-                display: flex;
-                justify-content: center;
-                gap: 20px;
-                .banner-cta {
-                    text-transform: uppercase;
-                    font-size: 13px;
-                    font-weight: 500;
-                    width: fit-content;
-                    border: 2px solid white;
-                    padding: 10px 20px;
-                    transition: all ease 0.3s;
-                    cursor: pointer;
-                    &.v2 {
-                        background-color: white;
-                        color: black;
-                    }
-                    &:hover {
-                        background-color: rgba(255, 255, 255, 0.6);
-                    }
-                }
-            }
+      }
+      .ctas {
+        display: flex;
+        gap: 24px;
+        margin-top: 10px;
+        .banner-cta {
+          text-transform: none;
+          font-size: 0.9rem;
+          font-weight: 600;
+          width: fit-content;
+          border: none;
+          padding: 0.7rem 1rem;
+          @include lg {
+            padding: 0.7rem 2rem;
+          }
+          border-radius: 14px;
+          background: linear-gradient(90deg, #00970d 80%, #17dc1a 100%);
+          color: #fff;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          transition: background 0.3s, box-shadow 0.3s;
+          font-family: "Montserrat", sans-serif;
+
+          &.v2 {
+            background: linear-gradient(90deg, #00970d 80%, #17dc1a 100%);
+            color: #fff;
+          }
+          &:hover {
+            background: linear-gradient(90deg, #17dc1a 80%, #00970d 100%);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+          }
+          .arrow {
+            font-size: 1.2em;
+            margin-left: 6px;
+          }
         }
+      }
     }
+
+    .banner-img {
+      flex: 1;
+      position: relative;
+      z-index: 3;
+      width: 320px;
+      margin-bottom: 0;
+      //   margin-left: 40px;
+      //   margin-top: 40px;
+      filter: drop-shadow(5px 10px 5px #b6e3b6);
+      @include md {
+        width: 500px;
+        margin-left: 60px;
+        margin-top: 50px;
+      }
+      @include xxl {
+        width: 600px;
+        margin-left: 0;
+        margin-top: 0;
+      }
+    }
+
+    .leaf {
+      position: absolute;
+      z-index: 2;
+      width: 60px;
+      opacity: 0.8;
+      pointer-events: none;
+      &.leaf1 {
+        top: 30px;
+        left: 60%;
+        transform: rotate(-15deg);
+      }
+      &.leaf2 {
+        top: 220px;
+        left: 80%;
+        width: 50px;
+        transform: rotate(10deg);
+      }
+      &.leaf3 {
+        bottom: 20px;
+        left: 10%;
+        width: 50px;
+        transform: rotate(-10deg);
+      }
+    }
+  }
 }

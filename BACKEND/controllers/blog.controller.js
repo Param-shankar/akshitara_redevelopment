@@ -19,4 +19,16 @@ const getBlogById = async (req, res) => {
   }
 };
 
-module.exports = { getAllBlogs, getBlogById };
+const addBlog = async (req, res) => {
+  try {
+    const body = { ...req.body };
+    console.log(body);
+    const createdBlog = await Blog.create(body);
+    console.log(createdBlog);
+    res.status(201).json(createdBlog);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+module.exports = { getAllBlogs, getBlogById, addBlog };

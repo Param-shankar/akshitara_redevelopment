@@ -32,6 +32,12 @@ const ProductSchema = mongoose.Schema(
       type: Array,
       required: true,
     },
+    // Optional alias for multiple images; when provided in requests,
+    // controllers can map it into image_urls to maintain backward compatibility.
+    images: {
+      type: [String],
+      required: false,
+    },
     materials: {
       type: Array,
       required: false,

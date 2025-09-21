@@ -1,52 +1,120 @@
 @import "../../../css-config/mixins.scss";
 .product-card {
-    cursor: pointer;
-    // width: calc(50% - 5px);
+  background: #fff;
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 4px 20px rgba(44, 167, 44, 0.1);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(44, 167, 44, 0.2);
+  }
+
+  .product-image {
+    width: 100%;
+    height: 260px;
+    border-radius: 18px;
+    overflow: hidden;
     margin-bottom: 20px;
-    @include md {
-        // width: calc(25% - 15px);
+    border: 1px solid #e6e6e6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      transition: transform 0.3s ease;
+      display: block;
     }
-    .thumbnail {
-        width: 100%;
-        height: 180px;
-        background-color: rgba(0, 0, 0, 0.05);
-        margin-bottom: 10px;
-        padding: 25px;
-        display: flex;
-        align-items: center;
-        @include md {
-            height: 350px;
-        }
-        img {
-            transition: all ease 0.3s;
-            display: block;
-            width: 100%;
-        }
+
+    &:hover img {
+      transform: scale(1.05);
     }
-    .prod-details {
-        .name {
-            font-size: 14px;
-            display: block;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            overflow: hidden;
-            @include md {
-                font-size: 16px;
-                margin-bottom: 10px;
-            }
-        }
-        .price {
-            font-size: 18px;
-            @include md {
-                font-size: 24px;
-            }
-        }
+  }
+
+  .product-details {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+
+    .product-name {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #176b29;
+      margin-bottom: 12px;
+      font-family: "Montserrat", sans-serif;
+      line-height: 1.3;
     }
-    &:hover {
-        .thumbnail {
-            img {
-                transform: scale(1.2);
-            }
-        }
+
+    .product-description {
+      font-size: 1rem;
+      color: #1c7c2f;
+      line-height: 1.4;
+      margin-bottom: 18px;
+      font-family: "Montserrat", sans-serif;
     }
+
+    .product-price {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: #176b29;
+      margin-bottom: 18px;
+      font-family: "Montserrat", sans-serif;
+    }
+
+    .product-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: auto;
+
+      .add-to-cart-btn {
+        background: linear-gradient(180deg, #1dac2f 0%, #0a7a16 100%);
+        color: #fff;
+        border: none;
+        padding: 14px 20px;
+        border-radius: 25px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-family: "Montserrat", sans-serif;
+
+        &:hover {
+          filter: brightness(0.95);
+          transform: translateY(-2px);
+          box-shadow: 0 4px 15px rgba(41, 156, 62, 0.35);
+        }
+      }
+
+      .view-product-link {
+        color: #176b29;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        text-decoration: none;
+        font-size: 0.9rem;
+        font-weight: 500;
+        text-align: center;
+        transition: color 0.3s ease;
+        font-family: "Montserrat", sans-serif;
+
+        &:hover {
+          color: #0a7a16;
+          text-decoration: underline;
+        }
+      }
+    }
+  }
 }

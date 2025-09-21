@@ -12,6 +12,8 @@ import {
   FaPinterest,
   FaCartPlus,
   FaStar,
+  FaChevronLeft,
+  FaChevronRight,
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import "./SingleProduct.scss";
@@ -31,6 +33,7 @@ const SingleProduct = () => {
   const [errors, setErrors] = useState({ rating: "", text: "" });
   const [toast, setToast] = useState(null);
   const [open, setOpen] = React.useState(false);
+  const [selectedImageIdx, setSelectedImageIdx] = useState(0);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -61,6 +64,26 @@ const SingleProduct = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  // Set selectedImageIdx to 0 when data changes
+  useEffect(() => {
+    setSelectedImageIdx(0);
+  }, [data]);
+
+  const images =
+    Array.isArray(data?.images) && data.images.length > 0
+      ? data.images
+      : data?.image
+      ? [data.image]
+      : [];
+
+  const handlePrev = () => {
+    setSelectedImageIdx((prev) => (prev === 0 ? images.length - 1 : prev - 1));
+  };
+
+  const handleNext = () => {
+    setSelectedImageIdx((prev) => (prev === images.length - 1 ? 0 : prev + 1));
+  };
 
   const handleRatingChange = (rating) => {
     setReview({ ...review, rating });
@@ -142,7 +165,42 @@ const SingleProduct = () => {
             {loading ? (
               <div className="skeleton skeleton-image"></div>
             ) : (
-              <img src={data?.image} alt={data?.product_name} />
+              <div className="product-images">
+                {/* Swiper arrows */}
+                {images.length > 1 && (
+                  <button
+                    className="swiper-arrow left-arrow"
+                    onClick={handlePrev}>
+                    <FaChevronLeft />
+                  </button>
+                )}
+                <img
+                  className="main-image"
+                  src={images[selectedImageIdx]}
+                  alt={data?.product_name}
+                />
+                {images.length > 1 && (
+                  <button
+                    className="swiper-arrow right-arrow"
+                    onClick={handleNext}>
+                    <FaChevronRight />
+                  </button>
+                )}
+                {/* Dots for image navigation */}
+                {images.length > 1 && (
+                  <div className="image-dots">
+                    {images.map((_, idx) => (
+                      <span
+                        key={idx}
+                        className={`dot${
+                          selectedImageIdx === idx ? " active" : ""
+                        }`}
+                        onClick={() => setSelectedImageIdx(idx)}
+                      />
+                    ))}
+                  </div>
+                )}
+              </div>
             )}
           </div>
           <div className="right">
@@ -164,8 +222,7 @@ const SingleProduct = () => {
                     onClick={() => {
                       handleAddToCart(data, quantity);
                       handleClick("Product added to cart!");
-                    }}
-                  >
+                    }}>
                     <FaCartPlus size={20} />
                     ADD TO CART
                   </button>
@@ -217,8 +274,7 @@ const SingleProduct = () => {
                     className="submit-review-button"
                     onClick={() => {
                       handleSubmitReview();
-                    }}
-                  >
+                    }}>
                     Submit Review
                   </button>
                 </div>
@@ -231,8 +287,7 @@ const SingleProduct = () => {
             <Suspense
               fallback={
                 <div className="related-products-loading">Loading...</div>
-              }
-            >
+              }>
               <RelatedProducts productId={id} categoryName={data?.category} />
             </Suspense>
           )}
@@ -243,8 +298,7 @@ const SingleProduct = () => {
           onClose={handleClose}
           severity="success"
           variant="filled"
-          sx={{ width: "100%" }}
-        >
+          sx={{ width: "100%" }}>
           {toast}
         </Alert>
       </Snackbar>

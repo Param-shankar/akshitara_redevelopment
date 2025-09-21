@@ -1,126 +1,151 @@
 @import "../../css-config/mixins.scss";
 
 .main-header {
+  position: fixed;
+  top: 2vh;
+  width: 100vw;
+  padding: 0 20px;
+  z-index: 99;;
+  // background-color: #212121;
+  color: white;
+  // border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+
+  @include md {
+    padding: 0 15px;
+  }
+
+  .header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 50px;
+    min-height: 5vh;
     width: 100%;
-    padding: 0 20px;
-    z-index: 99;
-    background-color: #212121;
-    color: white;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  
+
+    // new added code for glass effect
+    background: rgba(220, 220, 220, 0.7);
+    // background:black;
+    border: 0.4px solid #aeaeae;
+    backdrop-filter: blur(8.7px);
+    -webkit-backdrop-filter: blur(8.7px);
+    border-radius: 10px;
+
     @include md {
-      padding: 0 40px;
-    }
-  
-    .header-content {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      height: 50px;
-      max-width: 1200px;
-      margin: 0 auto;
-  
-      @include md {
-        height: 80px;
-      }
-    }
-  
-    .left {
-      list-style-type: none;
-      display: none;
-      gap: 25px;
-  
-      @include md {
-        display: flex;
-      }
-  
-      li {
-        font-size: 14px;
-        font-weight: 600;
-        text-transform: uppercase;
-        cursor: pointer;
-  
-        &:hover {
-          opacity: 0.6;
-        }
-      }
-    }
-  
-    .center {
-      font-size: 22px;
-      font-weight: 700;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-  
-      @include md {
-        font-size: 34px;
-        position: absolute;
-        left: 50%;
-        transform: translateX(-50%);
-      }
-    }
-  
-    .right {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-  
-      @include md {
-        gap: 25px;
-      }
-  
-      svg {
-        font-size: 20px;
-        cursor: pointer;
-  
-        @include md {
-          font-size: 24px;
-        }
-  
-        &:hover {
-          opacity: 0.6;
-        }
-      }
-  
-      .cart-icon {
-        position: relative;
-        top: 2px;
-  
-        span {
-          min-width: 20px;
-          text-align: center;
-          background: #00970d;
-          padding: 2.5px;
-          position: absolute;
-          top: -5px;
-          right: -12px;
-          font-size: 12px;
-          line-height: 1;
-          border-radius: 10px;
-        }
-      }
-  
-      .menu-icon {
-        display: block;
-  
-        @include md {
-          display: none;
-        }
-      }
-    }
-  
-    // Remove the `sticky-header` transform and animation here
-    &.sticky-header {
-      background-color: #212121;
-      color: white;
-      position: sticky;
-      top: 0;
+      height: 8vh;
     }
   }
-  
-  // Removed the `@keyframes` and `StickyHeader` animation completely
-  
+  // navbar elements
+  .left {
+    list-style-type: none;
+    display: none;
+    gap: 25px;
+    // background-color: #00970d;
+    margin-left: 36%;
+    @include md {
+      display: flex;
+    }
+    li {
+      // font-size: 14px;
+      // font-weight: 600;
+      // text-transform: uppercase;
+      // cursor: pointer;
+      font-size: 20px;
+      font-weight: 600;
+      cursor: pointer;
+      /* Blogs */
+      font-family: "Montserrat";
+      font-style: normal;
+      font-weight: 500;
+      line-height: 65px;
+      /* identical to box height, or 295% */
+      color: #5e5e5f;
+
+      &:hover {
+        opacity: 0.6;
+      }
+    }
+  }
+
+  //heading
+  .center {
+    font-size: 1.3rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    font-family: "Noto Sans", sans-serif;
+    padding-left: 3%;
+    color: black;
+    @include md {
+      font-size: 2.1rem;
+      position: absolute;
+      // left: 50%;
+      left: 11%;
+      transform: translateX(-50%);
+    }
+  }
+
+  .right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding-right:3%;
+    color: black;
+    @include md {
+      gap: 25px;
+    }
+
+    svg {
+      font-size: 20px;
+      cursor: pointer;
+
+      @include md {
+        font-size: 24px;
+      }
+
+      &:hover {
+        opacity: 0.6;
+      }
+    }
+
+    .cart-icon {
+      position: relative;
+      top: 2px;
+
+      span {
+        min-width: 20px;
+        text-align: center;
+        background: #00970d;
+        padding: 2.5px;
+        position: absolute;
+        top: -5px;
+        right: -12px;
+        font-size: 12px;
+        line-height: 1;
+        border-radius: 10px;
+      }
+    }
+
+    .menu-icon {
+      display: block;
+
+      @include md {
+        display: none;
+      }
+    }
+  }
+
+  // Remove the `sticky-header` transform and animation here
+  &.sticky-header {
+    // background-color: #212121;
+    color: white;
+    position: fixed;
+    top:0;
+    top: 2vh;
+  }
+}
+
+// Removed the `@keyframes` and `StickyHeader` animation completely
 
 .user-icon-wrapper {
   position: relative;
@@ -144,7 +169,7 @@
     align-items: center;
 
     &:before {
-      content: '';
+      content: "";
       position: absolute;
       top: -10px;
       right: 50%;
@@ -194,17 +219,17 @@
     flex-grow: 1;
 
     @include md {
-        flex-grow: unset;
+      flex-grow: unset;
     }
   }
 
-  .btn-container{
+  .btn-container {
     display: flex;
     padding: 10px;
     gap: 20px;
   }
 
-  .ddlbutton{
+  .ddlbutton {
     width: 30px;
     height: 30px;
     font-size: 40px;
@@ -215,14 +240,23 @@
 .dropdown-menu {
   display: block;
   position: fixed;
-  top: 50px;
-  width: 100%;
-  background-color: #212121;
+  top: 4.8vh;
+  position: absolute;
+  width: calc(100% - 40px);
+  border-radius: 10px;
+  border-start-start-radius: 0px;
+  border-start-end-radius: 0px;
+  // margin: 0 20px;
+  // margin-left: 20px;
+  // margin-right: 20px;
+  // background-color: #212121;
+  padding: 0 20px;
+  background: rgba(220, 220, 220, 1);
   z-index: 98;
   overflow: hidden;
   max-height: 0;
   transition: max-height 0.4s ease-in-out;
-  color: white;
+  color: black;
 
   ul {
     list-style-type: none;
@@ -236,7 +270,7 @@
       cursor: pointer;
 
       &:hover {
-        background-color: #333;
+        // background-color: #333;
       }
     }
   }
@@ -244,4 +278,10 @@
   &.open {
     max-height: 300px; // Adjust based on the content height
   }
+}
+
+.left li.active,
+.center.active,
+.right li.active {
+  color: #299c3e !important;
 }

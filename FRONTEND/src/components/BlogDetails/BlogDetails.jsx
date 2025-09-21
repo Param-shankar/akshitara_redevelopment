@@ -90,7 +90,7 @@ const BlogDetails = () => {
         </p>
         <div className={styles.blogCategories}>
           {blog.categories &&
-            blog.categories.map((category, index) => (
+            blog.categories?.map((category, index) => (
               <span key={index} className={styles.blogCategory}>
                 {category}
               </span>

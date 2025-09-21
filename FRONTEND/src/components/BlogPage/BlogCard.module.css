@@ -1,29 +1,35 @@
 /* Card Container */
 .card {
   background-color: #ffffff;
-  border: 1px solid #e0e0e0;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-  padding: 24px;
-  transition: box-shadow 0.3s ease-in-out;
-  max-width: calc(50% - 10px);
-  width: 100%;
-  box-sizing: border-box;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  height: fit-content;
 }
-  
-  .card:hover {
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-  }
-  
-  .skeleton {
-    pointer-events: none;
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.skeleton {
+  pointer-events: none;
 }
 
 /* Skeleton Animations */
-.skeletonTitle, .skeletonAuthor, .skeletonCategory, .skeletonContent, .skeletonButton {
+.skeletonImage, .skeletonTitle, .skeletonAuthor, .skeletonCategory, .skeletonContent, .skeletonButton {
     background: linear-gradient(90deg, #e0e0e0 25%, #f0f0f0 50%, #e0e0e0 75%);
     background-size: 200% 100%;
     animation: shimmer 1.5s infinite;
     border-radius: 4px;
+}
+
+/* Skeleton Image */
+.skeletonImage {
+    width: 100%;
+    height: 200px;
+    margin-bottom: 16px;
 }
 
 /* Skeleton Title */
@@ -33,10 +39,10 @@
     margin-bottom: 12px;
 }
 
-/* Skeleton Author */
-.skeletonAuthor {
-    width: 60%;
-    height: 1em;
+/* Skeleton Content */
+.skeletonContent {
+    width: 100%;
+    height: 3em;
     margin-bottom: 12px;
 }
 
@@ -44,27 +50,31 @@
 .skeletonCategories {
     display: flex;
     gap: 8px;
-    margin-bottom: 12px;
-}
-
-.skeletonCategory {
-    width: 50px;
-    height: 1em;
-}
-
-/* Skeleton Content */
-.skeletonContent {
-    width: 100%;
-    height: 3em;
     margin-bottom: 16px;
 }
 
-/* Skeleton Button */
+.skeletonCategory {
+    width: 60px;
+    height: 24px;
+    border-radius: 12px;
+}
+
+/* Skeleton Footer */
+.skeletonFooter {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.skeletonAuthor {
+    width: 120px;
+    height: 1em;
+}
+
 .skeletonButton {
-    width: 100px;
-    height: 2em;
-    background-color: #e0e0e0;
-    border-radius: 4px;
+    width: 80px;
+    height: 32px;
+    border-radius: 16px;
 }
 
 @keyframes shimmer {
@@ -72,98 +82,138 @@
     100% { background-position: 200% 0; }
 }
   
-  /* Header Styles */
-  .header {
-    margin-bottom: 20px;
-  }
+/* Image Container */
+.imageContainer {
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+}
+
+.blogImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.card:hover .blogImage {
+  transform: scale(1.05);
+}
+
+/* Content Area */
+.content {
+  padding: 20px;
+}
+
+.title {
+  margin: 0 0 12px 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #333;
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.description {
+  margin: 0 0 16px 0;
+  color: #666;
+  line-height: 1.5;
+  font-size: 14px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Category Style */
+.categories {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.category {
+  font-size: 12px;
+  background: #00970d;
+  color: white;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Footer Section */
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+}
+
+.authorInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.author {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+}
+
+.date {
+  font-size: 12px;
+  color: #666;
+}
+
+/* Read More Button */
+.readMore {
+  background: #00970d;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.readMore:hover {
+  background: #007a0b;
+}
   
-  .header h2 {
-    margin: 0;
-    font-size: clamp(1.2rem, 5vw, 1.75rem);
-    color: #333333;
-    line-height: 1.2;
-  }
-  
-  .author {
-    color: #757575;
-    font-size: 0.95em;
-    margin-top: 8px;
-  }
-  
-  /* Category Style */
-  .categories {
-    margin-top: 10px;
-    display: flex;
-    gap: 5px;
-  }
-  .category {
-    font-size: 10px;
-    background: #00970d;
-    color: white;
-    padding: 2px 8px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
-  
-  /* Content Area */
+/* Responsive Design */
+@media screen and (max-width: 600px) {
   .content {
-    margin-bottom: 24px;
-    line-height: 1.6;
-    color: #424242;
+    padding: 16px;
   }
   
-  /* Read More Button */
-  .readMore {
-    outline: 0;
-    border: 0;
-    height: 40px;
-    width: 100px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    font-size: 16px;
-    color: white;
-    background: #00970d;
-    border-bottom: 3px solid #006d09;
+  .title {
+    font-size: 1.1rem;
   }
   
-  /* Footer Section */
+  .category {
+    font-size: 11px;
+    padding: 3px 10px;
+  }
+  
   .footer {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: center;
-    padding-top: 16px;
-    border-top: 1px solid #e0e0e0;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
   }
   
-  /* Responsive Design */
-  @media screen and (max-width: 600px) {
-    .card {
-      padding: 16px;
-      max-width: 100%;
-    }
-  
-    .header h2 {
-      font-size: 1.2rem;
-    }
-  
-    .category {
-      font-size: 0.5em;
-      padding: 2px 6px;
-    }
-  
-    .readMore {
-      max-width: 100%;
-    }
-  
-    .footer {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-  
-    .social {
-      margin-top: 16px;
-    }
+  .readMore {
+    align-self: flex-end;
   }
+}

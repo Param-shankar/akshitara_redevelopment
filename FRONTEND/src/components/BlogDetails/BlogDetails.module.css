@@ -8,6 +8,8 @@
     margin: 20px auto;
     box-sizing: border-box;
     transition: box-shadow 0.3s ease-in-out;
+    margin-top: 12vh;
+    
 }
 
 .blogDetailsContainer:hover {

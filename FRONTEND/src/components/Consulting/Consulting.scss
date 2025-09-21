@@ -1,0 +1,23 @@
+/* ConsultingPage.css */
+@import "../../css-config/mixins.scss";
+.consulting-container {
+    height: 110vh;
+    /* padding: 10%; */
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    padding-top: 10vh;
+    /* background-color: aqua; */
+    @include lg{
+        padding-top: 0;
+    }
+}
+.calendly-widget{
+    /* background-color: aqua; */
+    height: 100%;
+    /* padding: 10%; */
+    /* width: 100%; */
+    margin: 0;
+    padding: 0;
+    /* padding-top:2vh; */
+}

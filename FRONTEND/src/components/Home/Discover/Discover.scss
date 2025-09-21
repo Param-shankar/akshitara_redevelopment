@@ -1,0 +1,143 @@
+@import "../../../css-config/mixins.scss";
+.discover {
+  width: 100%;
+  height: 130%;
+  margin: 0 auto;
+  padding: 7vh 0 2rem 0;
+  display: flex;
+  overflow: hidden;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  z-index: 10;
+
+  .discover-title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 40px;
+    z-index: 9;
+    .leaf-icon {
+      // position: absolute;
+      height: 10vw;
+      width: 10vw;
+      top: -1vh;
+      
+      background-image: url("../../../assets/leafimage.png");
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: contain;
+      @include md{
+
+      }
+    }
+    .discover-heading {
+      font-size: 3vh;
+      font-weight: 700;
+      z-index: 10;
+      @include lg{
+        font-size: 2.4rem;
+      }
+      color: #299c3e;
+      font-family: "Montserrat", sans-serif;
+      letter-spacing: -1px;
+      position: relative;
+      &:after {
+        content: "";
+        display: block;
+        height: 4px;
+        width: 100%;
+        background: #299c3e;
+        position: absolute;
+        left: 0;
+        bottom: -8px;
+        border-radius: 2px;
+        opacity: 0.5;
+      }
+    }
+  }
+
+  .discover-steps {
+    display: flex;
+    // gap: 48px;
+    flex-wrap: wrap;
+    padding-top: 10vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    @include md {
+      gap: 32px;
+    }
+    @include lg {
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 32px;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .discover-step {
+      background: #fff;
+      border: 2px solid #e2f5e2;
+      border-radius: 18px;
+      box-shadow: 0 4px 32px rgba(44, 167, 44, 0.07);
+      padding: 32px 28px 24px 28px;
+      min-width: 260px;
+      max-width: 320px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      position: relative;
+      z-index: 2;
+      @include sm {
+        min-width: 220px;
+        max-width: 100%;
+        padding: 24px 16px 18px 16px;
+      }
+
+      .discover-icon {
+        margin-bottom: 18px;
+        svg {
+          width: 70px;
+          height: 70px;
+          filter: drop-shadow(0 6px 18px #cdf4cb88);
+        }
+      }
+      .discover-step-title {
+        font-size: 1.35rem;
+        font-weight: 600;
+        color: #299c3e;
+        margin-bottom: 12px;
+        font-family: "Montserrat", sans-serif;
+      }
+      .discover-step-desc {
+        font-size: 1.08rem;
+        color: #222;
+        font-family: "Montserrat", sans-serif;
+        line-height: 1.5;
+      }
+    }
+
+    .discover-arrow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 50%;
+      margin: 1vh;
+    //   background-color: aqua;
+      transform: rotate(90deg);
+      svg {
+        width: 1.5rem;
+        height: 1.5rem;
+        stroke: #299c3e;
+        opacity: 0.7;
+      }
+      @include lg {
+        transform: rotate(0deg);
+      }
+    }
+  }
+}

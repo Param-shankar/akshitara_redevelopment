@@ -24,6 +24,7 @@ const Orders = () => {
           : null;
         if (url) {
           const response = await axios.get(url);
+          console.log("Orders fetched:", response.data);
           setOrders(response.data);
         }
       } catch (error) {
@@ -71,10 +72,15 @@ const Orders = () => {
                 order.delivery_status.toLowerCase() === "delivered"
                   ? "delivered"
                   : ""
-              }`}
-            >
+              }`}>
               <div className="order-header">
-                <h2>#{order.razorpay_order_id}</h2>
+                <h2>
+                  #
+                  {order?.payment_method === "COD"
+                    ? order.channel_order_id
+                    : order.razorpay_order_id}
+                </h2>
+
                 <span className={`status ${getStatusClass(order.status)}`}>
                   {order.status}
                 </span>
@@ -89,9 +95,17 @@ const Orders = () => {
                 <p>
                   <strong>Delivery Status:</strong>{" "}
                   <span
-                    className={`delivery-status ${order.delivery_status.toLowerCase()}`}
-                  >
+                    className={`delivery-status ${order.delivery_status.toLowerCase()}`}>
                     {order.delivery_status}
+                  </span>
+                </p>
+
+                <p>
+                  <strong>(ShipRocket Tracking) /order id:</strong>{" "}
+                  <span className={`delivery-status ${order?.order_id}`}>
+                    {order?.payment_method === "COD"
+                      ? order.channel_order_id
+                      : order.razorpay_order_id}
                   </span>
                 </p>
               </div>

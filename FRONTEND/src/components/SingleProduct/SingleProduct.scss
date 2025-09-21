@@ -2,11 +2,13 @@
 
 .single-product-main-content {
   margin: 20px 0;
-
+  padding-top: 7vh;
   @include md {
     margin: 75px 0;
   }
-
+  @include lg {
+    padding-top: 0px;
+  }
   .layout {
     max-width: calc(100% - 20px);
     margin: 0 auto;
@@ -358,6 +360,100 @@
 
         .skeleton-price {
           width: 50%;
+        }
+      }
+    }
+  }
+
+  .product-images {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    height: 97%;
+    .main-image {
+      width: 100%;
+      height: 100%;
+      // max-width: 350px;
+      border-radius: 16px;
+      margin-bottom: 18px;
+      object-fit: cover;
+      box-shadow: 0 2px 16px rgba(44,167,44,0.08);
+      background: #f8fdf8;
+      border: 2px solid #e2f5e2;
+      transition: border 0.2s;
+      z-index: 1;
+    }
+    .swiper-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: #fff;
+      border: 2px solid #299c3e;
+      border-radius: 50%;
+      width: 38px;
+      height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 2;
+      font-size: 22px;
+      color: #299c3e;
+      box-shadow: 0 2px 8px rgba(44,167,44,0.12);
+      transition: background 0.2s, border 0.2s;
+      &:hover {
+        background: #e2f5e2;
+        border: 2px solid #299c3e;
+      }
+      &.left-arrow {
+        left: 10px;
+      }
+      &.right-arrow {
+        right: 10px;
+      }
+    }
+    .thumbnails {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      .thumbnail-image {
+        width: 60px;
+        height: 60px;
+        border-radius: 8px;
+        object-fit: cover;
+        cursor: pointer;
+        border: 2px solid #e2f5e2;
+        transition: border 0.2s, box-shadow 0.2s;
+        background: #f8fdf8;
+        &.active {
+          border: 2px solid #299c3e;
+          box-shadow: 0 2px 8px rgba(44,167,44,0.12);
+        }
+        &:hover {
+          border: 2px solid #299c3e;
+        }
+      }
+    }
+    .image-dots {
+      position: absolute;
+      top: 94%;
+      z-index: 10;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 10px;
+      .dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: #e2f5e2;
+        cursor: pointer;
+        transition: background 0.2s, box-shadow 0.2s;
+        &.active {
+          background: #299c3e;
+          box-shadow: 0 2px 8px rgba(44,167,44,0.12);
         }
       }
     }

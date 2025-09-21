@@ -1,0 +1,336 @@
+@import "../../../css-config/mixins.scss";
+
+.why-choose-akshitara {
+  width: 100%;
+  padding: 60px 0;
+  // background-color: #f8fdf8;
+  position: relative;
+
+  .discover-title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 40px;
+    z-index: 9;
+
+    .leaf-icon {
+      // position: absolute;
+      height: 10vw;
+      width: 10vw;
+      top: 2vh;
+      left: 62vw;
+      background-image: url("../../../assets/med.png");
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: contain;
+    }
+    .discover-heading {
+      font-size: 5vw;
+      font-weight: 700;
+      z-index: 10;
+      @include lg {
+        font-size: 2.4rem;
+      }
+      color: #299c3e;
+      font-family: "Montserrat", sans-serif;
+      letter-spacing: -1px;
+      position: relative;
+      &:after {
+        content: "";
+        display: block;
+        height: 4px;
+        width: 100%;
+        background: #299c3e;
+        position: absolute;
+        left: 0;
+        bottom: -8px;
+        border-radius: 2px;
+        opacity: 0.5;
+      }
+    }
+  }
+  .why-choose-header {
+    text-align: center;
+    margin-bottom: 50px;
+    position: relative;
+
+    .why-choose-title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #299c3e;
+      font-family: "Montserrat", sans-serif;
+      margin: 0;
+      display: inline-block;
+      margin-right: 20px;
+
+      @include md {
+        font-size: 2rem;
+      }
+
+      @include sm {
+        font-size: 1.8rem;
+        margin-right: 15px;
+      }
+    }
+
+    .mortar-pestle-icon {
+      display: inline-block;
+      vertical-align: middle;
+    }
+  }
+
+  .why-choose-sections {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+
+    .why-choose-section {
+      margin-bottom: 40px;
+      display: flex;
+      
+      border: rgba(205, 244, 202, 1) 1px solid;
+      border-radius: 20px;
+      .section-content {
+        width: 100%;
+        // background: #e8f5e8;
+        background: linear-gradient(
+          90deg,
+          rgba(205, 244, 202, 0.8) 24.64%,
+          #ffffff 124.26%
+        );
+        backdrop-filter: blur(2px);
+
+        border-radius: 21px;
+        border-radius: 20px;
+        // padding: 40px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 40px;
+        box-shadow: 0 4px 20px rgba(44, 167, 44, 0.1);
+
+        @include md {
+          flex-direction: row;
+          gap: 30px;
+          padding: 30px;
+        }
+
+        @include sm {
+          padding: 20px;
+          gap: 20px;
+        }
+
+        &.reverse {
+          flex-direction: row-reverse;
+
+          @include md {
+            flex-direction: row;
+          }
+        }
+
+        .section-text {
+          flex: 1;
+          min-width: 0;
+          padding: 1.6rem;
+          // display: flex;
+          // text-align: center;
+          .section-title {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            gap: 10px;
+            padding-left: 0%;
+
+            .leaf-icon {
+              position: absolute;
+              height: 2vh;
+              width: 2vw;
+              left: 2%;
+              top: 0%;
+              svg {
+                width: 20px;
+                height: 20px;
+              }
+              img {
+                height: 10vh;
+                width: 10vh;
+              }
+            }
+
+            h3 {
+              font-size: 1.8rem;
+              font-weight: 600;
+              color: #299c3e;
+              font-family: "Montserrat", sans-serif;
+              margin: 0;
+              padding-left: 15%;
+              @include sm {
+                font-size: 1.5rem;
+              }
+            }
+          }
+
+          .section-description {
+            font-size: 1.1rem;
+            color: #333;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            font-family: "Montserrat", sans-serif;
+            font-family: Montserrat;
+            font-weight: 500;
+            font-style: Italic;
+            font-size: 22px;
+            line-height: 30px;
+            letter-spacing: 0%;
+            padding-left: 15%;
+            @include sm {
+              font-size: 1rem;
+            }
+          }
+
+          .section-features {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            padding-left: 15%;
+            li {
+              display: flex;
+              align-items: center;
+              margin-bottom: 12px;
+              font-size: 1rem;
+              color: #0f570a;
+              font-family: Montserrat;
+              font-weight: 500;
+              font-style: Medium;
+              font-size: 1.3rem;
+              line-height: 1rem;
+              letter-spacing: 0%;
+
+              font-family: "Montserrat", sans-serif;
+
+              .checkmark {
+                color: #299c3e;
+                font-weight: bold;
+                margin-right: 12px;
+                font-size: 1.1rem;
+              }
+            }
+          }
+        }
+
+        .section-image {
+          // flex: 1;
+          min-width: 0;
+          width: 50%;
+          height: 100%;
+          // height: 100%;
+          // background-color: #333;
+          display: none;
+          @include lg {
+            display: block;
+            
+          }
+
+          @include sm {
+            
+            padding: 20px;
+            gap: 20px;
+          }
+          .image-placeholder {
+            width: 40vw;
+            border-radius: 15px;
+
+            overflow: hidden;
+            @include sm {
+              height: 250px;
+            }
+
+            // &.ancient-wisdom-img {
+            //   background: linear-gradient(135deg, #f4f1eb 0%, #e8dcc6 100%);
+            //   background-image:
+            //     radial-gradient(circle at 20% 20%, rgba(139, 69, 19, 0.3) 0%, transparent 50%),
+            //     radial-gradient(circle at 80% 80%, rgba(160, 82, 45, 0.2) 0%, transparent 50%);
+            // }
+
+            &.modern-science-img {
+              background: linear-gradient(135deg, #fff8dc 0%, #f0e68c 100%);
+              background-image: radial-gradient(
+                  circle at 30% 30%,
+                  rgba(255, 165, 0, 0.2) 0%,
+                  transparent 50%
+                ),
+                radial-gradient(
+                  circle at 70% 70%,
+                  rgba(255, 140, 0, 0.3) 0%,
+                  transparent 50%
+                );
+            }
+
+            &.personalized-care-img {
+              background: linear-gradient(135deg, #f5deb3 0%, #deb887 100%);
+              background-image: radial-gradient(
+                  circle at 25% 25%,
+                  rgba(210, 180, 140, 0.4) 0%,
+                  transparent 50%
+                ),
+                radial-gradient(
+                  circle at 75% 75%,
+                  rgba(222, 184, 135, 0.3) 0%,
+                  transparent 50%
+                );
+            }
+
+            &::after {
+              content: "";
+              position: absolute;
+              top: 0;
+              left: 0;
+              right: 0;
+              bottom: 0;
+              background: rgba(255, 255, 255, 0.1);
+              border-radius: 15px;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .know-more-section {
+    text-align: center;
+    // margin-top: 50px;
+
+    .know-more-btn {
+      background: #fff;
+      border: 2px solid #299c3e;
+      border-radius: 25px;
+      padding: 12px 30px;
+      font-size: 1rem;
+      font-weight: 500;
+      color: #299c3e;
+      font-family: "Montserrat", sans-serif;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.3s ease;
+
+      &:hover {
+        background: #299c3e;
+        color: #fff;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(41, 156, 62, 0.3);
+      }
+
+      svg {
+        transition: transform 0.3s ease;
+      }
+
+      &:hover svg {
+        transform: translateX(3px);
+      }
+    }
+  }
+}
